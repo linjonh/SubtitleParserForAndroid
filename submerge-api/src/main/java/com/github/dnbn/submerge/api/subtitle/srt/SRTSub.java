@@ -33,7 +33,9 @@ public class SRTSub implements TimedTextFile {
 	public String toString() {
 		
 		StringBuilder sb = new StringBuilder();
-		this.lines.forEach(srtLine -> sb.append(srtLine));
+		for (SRTLine srtLine : lines) {
+			sb.append(srtLine);
+		}
 		return sb.toString();
 	}
 

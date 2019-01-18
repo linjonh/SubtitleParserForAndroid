@@ -44,8 +44,6 @@
 
 	<modules>
 		<module>submerge-api</module>
-		<module>submerge-web</module>
-		<module>submerge-cli</module>
 	</modules>
 
 	<build>

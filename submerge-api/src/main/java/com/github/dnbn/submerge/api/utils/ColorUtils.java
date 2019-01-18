@@ -1,7 +1,6 @@
 package com.github.dnbn.submerge.api.utils;
 
 
-import android.graphics.Color;
 import com.github.dnbn.submerge.api.parser.exception.InvalidColorCode;
 
 
@@ -16,11 +15,12 @@ public final class ColorUtils {
     public static int hexToRGB(String hex) {
         // TODO: 2019/1/4 revert alpha
         System.out.println("hex = [" + hex + "]");
-        int in = Color.parseColor(hex);
-        int red = (in) & 0xFF;
-        int green = (in >> 8) & 0xFF;
-        int blue = (in >> 16) & 0xFF;
-        return (red << 16) | (blue) | (green << 8);
+//        int in = Color.parseColor(hex);
+//        int red = (in) & 0xFF;
+//        int green = (in >> 8) & 0xFF;
+//        int blue = (in >> 16) & 0xFF;
+//        return (red << 16) | (blue) | (green << 8);
+        return 0;
     }
 
     /**

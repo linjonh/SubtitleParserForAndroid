@@ -1,7 +1,6 @@
 package com.github.dnbn.submerge.api.subtitle.common;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.Comparator;
 
 /**
@@ -16,7 +15,7 @@ public interface TimedObject extends Serializable, Comparable<TimedObject>, Comp
 	 * 
 	 * @return start time
 	 */
-	LocalTime getStart();
+	long getStart();
 
 	/**
 	 * Return the time elapsed during script playback at which the text will disappear
@@ -24,14 +23,14 @@ public interface TimedObject extends Serializable, Comparable<TimedObject>, Comp
 	 * 
 	 * @return end time
 	 */
-	LocalTime getEnd();
+	long getEnd();
 
 	/**
 	 * Set the time elapsed during script playback at which the text will appear onscreen.
 	 * 
 	 * @param start time
 	 */
-	void setStart(LocalTime start);
+	void setStart(long start);
 
 	/**
 	 * Set the time elapsed during script playback at which the text will disappear
@@ -39,5 +38,5 @@ public interface TimedObject extends Serializable, Comparable<TimedObject>, Comp
 	 * 
 	 * @param end time
 	 */
-	void setEnd(LocalTime end);
+	void setEnd(long end);
 }

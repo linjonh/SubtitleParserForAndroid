@@ -1,28 +1,17 @@
 package com.github.dnbn.submerge.api.parser;
 
+import com.github.dnbn.submerge.api.parser.exception.InvalidAssSubException;
+import com.github.dnbn.submerge.api.subtitle.ass.*;
+import com.github.dnbn.submerge.api.utils.ColorUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.DateTimeException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-import java.util.StringJoiner;
-import java.util.TreeSet;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-
-import com.github.dnbn.submerge.api.parser.exception.InvalidAssSubException;
-import com.github.dnbn.submerge.api.subtitle.ass.ASSSub;
-import com.github.dnbn.submerge.api.subtitle.ass.ASSTime;
-import com.github.dnbn.submerge.api.subtitle.ass.Events;
-import com.github.dnbn.submerge.api.subtitle.ass.ScriptInfo;
-import com.github.dnbn.submerge.api.subtitle.ass.V4Style;
-import com.github.dnbn.submerge.api.utils.ColorUtils;
+import java.util.*;
 
 /**
  * Parse SSA/ASS subtitles
@@ -105,10 +94,12 @@ public class ASSParser extends BaseParser<ASSSub> {
 
                 if (lengthDialog > lengthFormat) {
                     // The text field contains commas
-                    StringJoiner joiner = new StringJoiner(Events.SEP);
+                    StringBuilder joiner = new StringBuilder();
                     for (int i = lengthFormat - 1; i < lengthDialog; i++) {
-                        joiner.add(dialogLine[i]);
+                        joiner.append(dialogLine[i])
+                                .append(Events.SEP);
                     }
+                    joiner.deleteCharAt(joiner.length() - 1);
                     dialogLine[lengthFormat - 1] = joiner.toString();
                     dialogLine = Arrays.copyOfRange(dialogLine, 0, lengthFormat);
                 }
@@ -200,7 +191,7 @@ public class ASSParser extends BaseParser<ASSSub> {
                         }
                         break;
                 }
-            } catch (DateTimeException e) {
+            } catch (Throwable e) {
                 throw new InvalidAssSubException("Invalid time for property " + property + " : " + value);
             }
 
@@ -309,10 +300,16 @@ public class ASSParser extends BaseParser<ASSSub> {
                     String property = StringUtils.deleteWhitespace(split[0]);
                     property = StringUtils.uncapitalize(property);
 
-                    StringJoiner joiner = new StringJoiner(ScriptInfo.SEP);
+                    StringBuilder joiner = new StringBuilder();
                     for (int i = 1; i < split.length; i++) {
-                        joiner.add(split[i]);
+                        joiner.append(split[i])
+                                .append(ScriptInfo.SEP);
                     }
+                    joiner.delete(joiner.length() - ScriptInfo.SEP.length(), joiner.length());
+//                    StringJoiner joiner = new StringJoiner(ScriptInfo.SEP);
+//                    for (int i = 1; i < split.length; i++) {
+//                        joiner.add(split[i]);
+//                    }
                     String value = joiner.toString().trim();
 
                     String error = callProperty(ScriptInfo.class, scriptInfo, property, value);

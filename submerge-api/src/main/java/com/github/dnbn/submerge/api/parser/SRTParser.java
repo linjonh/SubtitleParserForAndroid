@@ -2,8 +2,6 @@ package com.github.dnbn.submerge.api.parser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -108,10 +106,10 @@ public final class SRTParser extends BaseParser<SRTSub> {
 		}
 
 		try {
-			LocalTime start = SRTTime.fromString(times[0]);
-			LocalTime end = SRTTime.fromString(times[1]);
+			long start = SRTTime.fromString(times[0]);
+			long end = SRTTime.fromString(times[1]);
 			time = new SRTTime(start, end);
-		} catch (DateTimeParseException e) {
+		} catch (Throwable e) {
 			throw new InvalidSRTSubException("Invalid time string : " + timeLine, e);
 		}
 

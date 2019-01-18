@@ -7,7 +7,7 @@ import com.github.dnbn.submerge.api.subtitle.common.TimedLine;
 import com.github.dnbn.submerge.api.subtitle.srt.SRTSub;
 
 import java.io.File;
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -18,9 +18,15 @@ public class Test {
 
     public static void main(String args[]) {
 
-        File assFile = new File("C:\\Users\\jianyou.lin\\Downloads\\黑镜：潘达斯奈基(Black+Mirror_+Bandersnatch).ass");
+        Set<? extends TimedLine> timedLines = getTimedLines();
+        printTimeLine(timedLines, isSrt);
+
+    }
+
+    public static Set<? extends TimedLine> getTimedLines() {
+        File assFile = new File("E:\\有字幕的视频\\Game.of.Thrones.S06E10.1080p.HDTV.x264-BATV.简体.ass");
         File srtFile = new File("C:\\Users\\jianyou.lin\\Downloads\\interstellar.(2014).chi.1cd.(7601884)\\interstellar.srt");
-        isSrt = true;
+        isSrt = false;
 
 
 //        for (TimedLine next : parse.getTimedLines()) {
@@ -46,32 +52,42 @@ public class Test {
             System.out.println("filename:" + filename);
             timedLines = parse.getTimedLines();
         }
-        printTimeLine(timedLines, isSrt);
-
+        return timedLines;
     }
 
-    private static void printTimeLine(Set<? extends TimedLine> timedLines, boolean isSrt) {
+    public static List<String> printTimeLine(Set<? extends TimedLine> timedLines, boolean isSrt) {
+        List<String> arrayList = new ArrayList<>();
         for (TimedLine timedLine : timedLines) {
-            LocalTime start = timedLine.getTime().getStart();
-            LocalTime end = timedLine.getTime().getEnd();
-            long startMs;
-            long endMs;
+            long startMs = timedLine.getTime().getStart();
+            long endMs = timedLine.getTime().getEnd();
 
-            String toString = start.toString();
+//            String toString = start.toString();
 //            if (isSrt) {
 //                startMs = parseSRTSubtitleTime(toString);
 //                endMs = parseSRTSubtitleTime(end.toString());
 //            } else {
-            startMs = parseASSSubtitleTime(toString);
-            endMs = parseASSSubtitleTime(end.toString());
+//            startMs = parseASSSubtitleTime(toString);
+//            endMs = parseASSSubtitleTime(end.toString());
 //            }
             List<String> textLines = timedLine.getTextLines();
             StringBuilder stringBuilder = new StringBuilder();
             for (String line : textLines) {
                 stringBuilder.append(line);
             }
-            System.out.println("origin start:" + start.toString() + " origin end: " + end.toString() + " start:" + startMs + " end:" + endMs + " text:" + stringBuilder.toString());
+//            String orgin = "";
+//            if (timedLine.getTime() instanceof SRTTime) {
+//                SRTTime srtTime = (SRTTime) timedLine.getTime();
+//                orgin = srtTime.toString();
+//            } else if (timedLine.getTime() instanceof ASSTime) {
+//                ASSTime srtTime = (ASSTime) timedLine.getTime();
+//                orgin = srtTime.toString();
+//            }
+            String printText = "origin " + timedLine.getTime().toString() + " start:" + startMs + " end:" + endMs + " text:" + stringBuilder.toString();
+//            System.out.println(printText);
+//            System.out.println( " start:" + startMs + " end:" + endMs + " text:" + stringBuilder.toString());
+            arrayList.add(printText);
         }
+        return arrayList;
     }
 
     /**
@@ -95,7 +111,7 @@ public class Test {
         } else {
             System.out.println("in = [" + in + "] split:" + Arrays.toString(split1));
         }
-        return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000 + millies * 1000;
+        return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000 + millies ;
     }
 
     /**

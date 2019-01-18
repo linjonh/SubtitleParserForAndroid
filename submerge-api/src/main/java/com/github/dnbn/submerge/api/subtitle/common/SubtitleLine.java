@@ -6,102 +6,114 @@ import java.util.List;
 
 public class SubtitleLine<T extends TimedObject> implements TimedLine {
 
-	/**
-	 * Serial Id
-	 */
-	private static final long serialVersionUID = 288560648398584309L;
+    /**
+     * Serial Id
+     */
+    private static final long serialVersionUID = 288560648398584309L;
 
-	/**
-	 * Subtitle Text. This is the actual text which will be displayed as a subtitle
-	 * onscreen.
-	 */
-	protected List<String> textLines = new ArrayList<>();
+    /**
+     * Subtitle Text. This is the actual text which will be displayed as a subtitle
+     * onscreen.
+     */
+    protected List<String> textLines = new ArrayList<>();
 
-	/**
-	 * Timecodes
-	 */
-	protected T time;
+    /**
+     * Timecodes
+     */
+    protected T time;
 
-	/**
-	 * Comparator that only compare timings
-	 * 
-	 * @return the comparator
-	 */
-	public static Comparator<TimedLine> timeComparator = new Comparator<TimedLine>() {
+    /**
+     * Comparator that only compare timings
+     *
+     * @return the comparator
+     */
+    public static Comparator<TimedLine> timeComparator = new Comparator<TimedLine>() {
 
-		@Override
-		public int compare(TimedLine o1, TimedLine o2) {
-			return o1.getTime().compareTo(o2.getTime());
-		}
-	};
+        @Override
+        public int compare(TimedLine o1, TimedLine o2) {
+            return o1.getTime().compareTo(o2.getTime());
+        }
+    };
 
-	/**
-	 * Constructor
-	 */
-	public SubtitleLine() {
-		super();
-	}
+    /**
+     * Constructor
+     */
+    public SubtitleLine() {
+        super();
+    }
 
-	/**
-	 * Constructor
-	 */
-	public SubtitleLine(T time) {
-		
-		super();
-		this.time = time;
-	}
+    /**
+     * Constructor
+     */
+    public SubtitleLine(T time) {
 
-	@Override
-	public boolean equals(Object obj) {
-		
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null || getClass() != obj.getClass()) {
-			return false;
-		}
+        super();
+        this.time = time;
+    }
 
-		TimedLine other = (TimedLine) obj;
-		return compareTo(other) == 0;
-	}
+    @Override
+    public boolean equals(Object obj) {
 
-	@Override
-	public int compare(TimedLine o1, TimedLine o2) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
-		return o1.compareTo(o2);
-	}
+        TimedLine other = (TimedLine) obj;
+        return compareTo(other) == 0;
+    }
 
-	@Override
-	public int compareTo(TimedLine o) {
+    @Override
+    public int compare(TimedLine o1, TimedLine o2) {
 
-		int compare = this.time.compareTo(o.getTime());
-		if (compare == 0) {
-			String thisText = String.join(",", this.textLines);
-			String otherText = String.join(",", o.getTextLines());
-			compare = thisText.compareTo(otherText);
-		}
+        return o1.compareTo(o2);
+    }
 
-		return compare;
-	}
+    @Override
+    public int compareTo(TimedLine o) {
 
-	// ===================== getter and setter start =====================
+        int compare = this.time.compareTo(o.getTime());
+        if (compare == 0) {
+            StringBuilder stringBuilder = new StringBuilder();
+            for (String textLine : textLines) {
+                stringBuilder.append(textLine)
+                        .append(",");
+            }
 
-	@Override
-	public T getTime() {
-		return this.time;
-	}
+            StringBuilder stringBuilderO = new StringBuilder();
+            List<String> textLines = o.getTextLines();
+            for (String textLine : textLines) {
+                stringBuilderO.append(textLine)
+                        .append(",");
+            }
+            String thisText = stringBuilder.toString();
+            String otherText = stringBuilderO.toString();
+            compare = thisText.compareTo(otherText);
+        }
 
-	public void setTime(T time) {
-		this.time = time;
-	}
+        return compare;
+    }
 
-	@Override
-	public List<String> getTextLines() {
-		return this.textLines;
-	}
+    // ===================== getter and setter start =====================
 
-	public void setTextLines(List<String> textLines) {
-		this.textLines = textLines;
-	}
+    @Override
+    public T getTime() {
+        return this.time;
+    }
+
+    public void setTime(T time) {
+        this.time = time;
+    }
+
+    @Override
+    public List<String> getTextLines() {
+        return this.textLines;
+    }
+
+    public void setTextLines(List<String> textLines) {
+        this.textLines = textLines;
+    }
 
 }

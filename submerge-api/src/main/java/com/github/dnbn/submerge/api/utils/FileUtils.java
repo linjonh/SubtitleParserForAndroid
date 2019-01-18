@@ -29,7 +29,7 @@ public class FileUtils {
 	/**
 	 * Detect charset encoding of an input stream
 	 * 
-	 * @param file: the InputStream to detect encoding from
+	 * @param is: the InputStream to detect encoding from
 	 * @return the charset encoding
 	 * @throws IOException
 	 */

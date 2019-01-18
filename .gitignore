@@ -11,3 +11,4 @@ bin/
 .classpath
 release.properties
 .idea
+*.iml
