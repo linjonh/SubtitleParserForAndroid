@@ -26,7 +26,7 @@ public class Test {
     public static Set<? extends TimedLine> getTimedLines() {
         File assFile = new File("E:\\有字幕的视频\\Game.of.Thrones.S06E10.1080p.HDTV.x264-BATV.简体.ass");
         File srtFile = new File("C:\\Users\\jianyou.lin\\Downloads\\interstellar.(2014).chi.1cd.(7601884)\\interstellar.srt");
-        isSrt = false;
+        isSrt = true;
 
 
 //        for (TimedLine next : parse.getTimedLines()) {
@@ -43,11 +43,11 @@ public class Test {
         Set<? extends TimedLine> timedLines;
         if (isSrt) {
             SRTParser srtParser = new SRTParser();
-            SRTSub srtSub = srtParser.parse(srtFile);
+            SRTSub srtSub = srtParser.parse(srtFile,"utf-8");
             timedLines = srtSub.getTimedLines();
         } else {
             ASSParser assParser = new ASSParser();
-            ASSSub parse = assParser.parse(assFile);
+            ASSSub parse = assParser.parse(assFile,"utf-8");
             String filename = parse.getFilename();
             System.out.println("filename:" + filename);
             timedLines = parse.getTimedLines();
@@ -83,7 +83,7 @@ public class Test {
 //                orgin = srtTime.toString();
 //            }
             String printText = "origin " + timedLine.getTime().toString() + " start:" + startMs + " end:" + endMs + " text:" + stringBuilder.toString();
-//            System.out.println(printText);
+            System.out.println(printText);
 //            System.out.println( " start:" + startMs + " end:" + endMs + " text:" + stringBuilder.toString());
             arrayList.add(printText);
         }
@@ -111,7 +111,7 @@ public class Test {
         } else {
             System.out.println("in = [" + in + "] split:" + Arrays.toString(split1));
         }
-        return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000 + millies ;
+        return hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000 + millies * 1000;
     }
 
     /**
